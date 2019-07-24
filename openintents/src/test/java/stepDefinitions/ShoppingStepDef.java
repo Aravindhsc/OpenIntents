@@ -1,8 +1,6 @@
 package stepDefinitions;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import cucumber.api.java8.En;
 import io.cucumber.datatable.DataTable;
