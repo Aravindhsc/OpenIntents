@@ -18,7 +18,6 @@ import io.appium.java_client.remote.MobileCapabilityType;
 public class HomePage extends PageLocators {
 	AndroidDriver<WebElement> driver;
 	DesiredCapabilities capabilities = new DesiredCapabilities();
-	// WebDriverWait wait=new WebDriverWait(driver, 30);
 
 	public void launchApp() throws MalformedURLException {
 		capabilities.setCapability("platformName", "Android");
@@ -80,20 +79,20 @@ public class HomePage extends PageLocators {
 	public void validateList(String listName) {
 		selectList(listName);
 		driver.findElement(By.xpath(navigate_back)).click();
-		List<String> item_list = new ArrayList<String>();
-		List<WebElement> webelements = driver.findElements(By.xpath(list_value));
+		List<String> ActualList = new ArrayList<String>(); // List to store fetched items as String
+		List<WebElement> webelements = driver.findElements(By.xpath(list_value));  //list to fetch values as web elements along with list name and items
 		for (int i = 0; i < webelements.size(); i++) {
-			item_list.add(webelements.get(i).getText());
+			ActualList.add(webelements.get(i).getText());
 		}
-		System.out.println(item_list);
+		System.out.println(ActualList);
 		
-		List<List<String>> expList = ShoppingStepDef.list;
-		Set<String> sortExpList = new TreeSet<String>();
+		List<List<String>> expectedList = ShoppingStepDef.list; //Stores values passed in list
+		Set<String> sortExpList = new TreeSet<String>(); // Tree set used to sort the list
 
-		for (int i = 1; i < expList.size(); i++) {
-			if (listName.equals(expList.get(i).get(0))) {
-				for (int j = 1; j < expList.get(i).size(); j++) {
-					sortExpList.add(expList.get(i).get(j));
+		for (int i = 1; i < expectedList.size(); i++) {
+			if (listName.equals(expectedList.get(i).get(0))) {
+				for (int j = 1; j < expectedList.get(i).size(); j++) {
+					sortExpList.add(expectedList.get(i).get(j)); 
 				}
 			}
 		}
@@ -101,7 +100,7 @@ public class HomePage extends PageLocators {
 
 		int i=0;
 		for(String expected_item : sortExpList) {
-			org.junit.Assert.assertEquals(expected_item,item_list.get(i));
+			org.junit.Assert.assertEquals(expected_item,ActualList.get(i)); // Assertion is done to compare both the list to validate sorting functionality
 			i++;
 		}
 	}
